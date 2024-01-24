@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Upload file form
+{% endblock %}
+
+{% block main %}
+
+    <form method="post" action="/upload/uploadfile" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Default file input example</label>
+            <input class="form-control" type="file" id="formFile" name="file_upload">
+            <input type="submit" class="btn btn-success my-3" value="Upload">
+        </div>
+    </form>
+
+{% endblock %}
