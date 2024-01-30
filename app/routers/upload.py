@@ -1,10 +1,9 @@
-from typing import Annotated
-from fastapi import APIRouter, UploadFile, Request, Form, File
+from fastapi import APIRouter, UploadFile, Request
 from fastapi.templating import Jinja2Templates
-from pathlib import Path
 import magic
 
-UPLOAD_DIR = Path() / 'uploads'
+from app.parser import parse_x509
+
 
 router = APIRouter(prefix="/upload", tags=["upload"])
 
@@ -18,15 +17,12 @@ async def upload_file_form(request: Request):
     )
 
 
-@router.post("/uploadfile")
+@router.post("/")
 async def create_upload_file(
         file_upload: UploadFile,
 ):
-    buffer = file_upload.file.read(1024)
-    mime_type = magic.from_buffer(buffer, True)
-    file_upload.file.seek(0)
-    return {
-        "filename": file_upload.filename,
-        "content_type": mime_type,
-    }
+    contents = await file_upload.read()
+    information = parse_x509.parse_x509_der(contents)
+    print(information)
+    return information
 

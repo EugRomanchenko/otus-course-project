@@ -10,6 +10,9 @@ python = "^3.11"
 fastapi = {extras = ["all"], version = "^0.109.0"}
 python-multipart = "^0.0.6"
 python-magic = "^0.4.27"
+puremagic = "^1.15"
+cryptography = "^42.0.1"
+sqlalchemy = "^2.0.25"
 
 
 [build-system]
