@@ -1,8 +1,10 @@
-from fastapi import APIRouter, UploadFile, Request
+from fastapi import APIRouter, UploadFile, Request, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.templating import Jinja2Templates
-import magic
 
-from app.parser import parse_x509
+from app.crud import save_certificate_info
+from app.schemas import certificate
+from app.db.engine import session_dependency
 
 
 router = APIRouter(prefix="/upload", tags=["upload"])
@@ -17,12 +19,11 @@ async def upload_file_form(request: Request):
     )
 
 
-@router.post("/")
+@router.post("/", response_model=certificate.Certificate)
 async def create_upload_file(
         file_upload: UploadFile,
+        async_session: AsyncSession = Depends(session_dependency),
 ):
-    contents = await file_upload.read()
-    information = parse_x509.parse_x509_der(contents)
-    print(information)
-    return information
+    cert = await save_certificate_info(session=async_session, file=file_upload)
+    return cert
 

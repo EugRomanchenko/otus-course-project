@@ -6,7 +6,7 @@ from sqlalchemy import String
 from sqlalchemy import DateTime
 from sqlalchemy import func
 
-from models.base import Base
+from app.models.base import Base
 
 
 class Certificate(Base):
@@ -14,17 +14,17 @@ class Certificate(Base):
     uploaded_at = Column(
         DateTime,
         nullable=False,
-        default=datetime.utcnow(),
-        server_default=func.now,
+        default=datetime.utcnow,
+        server_default=func.now(),
     )
 
     expired_at = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
     )
 
     created_at = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
     )
 

@@ -4,6 +4,10 @@ services:
   backend:
     build:
       dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload"]
     ports:
       - "8000:8000"
@@ -11,3 +15,17 @@ services:
       - ./app:/code/app
       - ./static:/code/static
       - ./templates:/code/templates
+
+  db:
+    image: postgres
+    env_file:
+      - .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - app-db-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+
+volumes:
+  app-db-data:
