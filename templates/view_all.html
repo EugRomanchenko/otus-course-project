@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  List all certificates
+{% endblock %}
+
+{% block main %}
+
+    <ul>
+        {% for cert in certs %}
+        <li><a href="{{ url_for('get_certificate_by_fingerprint_id', fingerprint_id=cert.fingerprint_sha1 ) }}">{{ cert.fingerprint_sha1 }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

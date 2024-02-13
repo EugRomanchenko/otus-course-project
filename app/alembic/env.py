@@ -9,7 +9,6 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from models import Base
-from config import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -38,6 +37,7 @@ def get_url():
     server = os.getenv("POSTGRES_SERVER", "db")
     db = os.getenv("POSTGRES_DB", "app")
     return f"postgresql+asyncpg://{user}:{password}@{server}/{db}"
+    #return "postgresql+asyncpg://postgres:changethis@localhost/app"
 
 
 def run_migrations_offline() -> None:

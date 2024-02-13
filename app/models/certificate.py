@@ -6,7 +6,8 @@ from sqlalchemy import String
 from sqlalchemy import DateTime
 from sqlalchemy import func
 
-from app.models.base import Base
+#from app.models.base import Base
+from models.base import Base
 
 
 class Certificate(Base):
@@ -31,5 +32,23 @@ class Certificate(Base):
     fingerprint_sha1 = Column(
         String,
         unique=True,
-        nullable=False
+        nullable=False,
+    )
+
+    serial_number = Column(
+        Integer,
+        unique=False,
+        nullable=True,
+    )
+
+    issuer = Column(
+        String,
+        unique=False,
+        nullable=True,
+    )
+
+    subject = Column(
+        String,
+        unique=False,
+        nullable=True,
     )

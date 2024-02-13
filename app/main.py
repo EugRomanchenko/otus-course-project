@@ -2,11 +2,12 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app.routers import upload
+from app.routers import upload, view
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(upload.router)
+app.include_router(view.router)
 
 
 templates = Jinja2Templates(directory="templates")

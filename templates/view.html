@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Upload file form
+{% endblock %}
+
+{% block main %}
+
+    <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">fingerprint_sha1</th>
+      <th scope="col">Uploaded Time</th>
+      <th scope="col">Created Time</th>
+        <th scope="col">Expired Time</th>
+        <th scope="col">Issuer</th>
+        <th scope="col">Subject</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>{{ fingerprint_sha1 }}</td>
+      <td>{{ uploaded_at }}</td>
+        <td>{{ created_at }}</td>
+        <td>{{ expired_at }}</td>
+        <td>{{ issuer }}</td>
+        <td>{{ subject }}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

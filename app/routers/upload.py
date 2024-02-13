@@ -1,6 +1,7 @@
-from fastapi import APIRouter, UploadFile, Request, Depends
+from fastapi import APIRouter, UploadFile, Request, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 
 from app.crud import save_certificate_info
 from app.schemas import certificate
@@ -25,5 +26,8 @@ async def create_upload_file(
         async_session: AsyncSession = Depends(session_dependency),
 ):
     cert = await save_certificate_info(session=async_session, file=file_upload)
-    return cert
+    return RedirectResponse(
+        f"http://127.0.0.1:8000/view/{cert.fingerprint_sha1}",
+        status_code=status.HTTP_303_SEE_OTHER
+    )
 
