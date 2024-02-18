@@ -6,14 +6,13 @@ from sqlalchemy import String
 from sqlalchemy import DateTime
 from sqlalchemy import func
 
-#from app.models.base import Base
 from models.base import Base
 
 
 class Certificate(Base):
 
     uploaded_at = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
         default=datetime.utcnow,
         server_default=func.now(),
@@ -52,3 +51,20 @@ class Certificate(Base):
         unique=False,
         nullable=True,
     )
+
+    #def __str__(self):
+    #    return (
+    #        f"(fingerprint={self.fingerprint_sha1}, expired={self.expired_at})"
+    #    )
+        #return {
+        #    "expired_at": self.expired_at,
+        #    "created_at": self.created_at,
+        #    "uploaded_at": self.uploaded_at,
+        #    "fingerprint_sha1": self.fingerprint_sha1,
+        #    "serial_number": self.serial_number,
+        #    "issuer": self.issuer,
+        #    "subject": self.subject,
+        #}
+
+    #def __repr__(self):
+    #    return str(self)

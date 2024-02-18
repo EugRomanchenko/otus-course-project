@@ -1,11 +1,14 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.templating import Jinja2Templates
+import logging
 
-from app.crud import find_certificate_by_fingerprint, find_all_certificates
-from app.schemas import certificate
-from app.db.engine import session_dependency
+from crud import find_certificate_by_fingerprint, find_all_certificates
+from schemas import certificate
+from db.engine import session_dependency
 
+
+logging.getLogger(__name__).setLevel(logging.INFO)
 
 router = APIRouter(prefix="/view", tags=["view"])
 
@@ -27,7 +30,7 @@ async def get_all_certificates(
     )
 
 
-@router.get("/{fingerprint_id}")
+@router.get("/{fingerprint_id}", response_model=certificate.Certificate)
 async def get_certificate_by_fingerprint_id(
         request: Request,
         fingerprint_id: str,
@@ -40,15 +43,9 @@ async def get_certificate_by_fingerprint_id(
             detail="Page not found"
         )
     return templates.TemplateResponse(
-        request=request,
-        name="view.html",
-        context={
-            "expired_at": cert.expired_at,
-            "created_at": cert.created_at,
-            "uploaded_at": cert.uploaded_at,
-            "fingerprint_sha1": cert.fingerprint_sha1,
-            "serial_number": cert.serial_number,
-            "issuer": cert.issuer,
-            "subject": cert.subject,
+        "view.html",
+        {
+            "request": request,
+            "cert": cert
         }
     )

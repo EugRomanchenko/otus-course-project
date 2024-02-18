@@ -8,7 +8,12 @@
 
     <ul>
         {% for cert in certs %}
-        <li><a href="{{ url_for('get_certificate_by_fingerprint_id', fingerprint_id=cert.fingerprint_sha1 ) }}">{{ cert.fingerprint_sha1 }}</a></li>
+        <li>
+            <a href="{{ url_for('get_certificate_by_fingerprint_id', fingerprint_id=cert.fingerprint_sha1 ) }}">{{ cert.fingerprint_sha1 }}</a>
+            <form action="{{ url_for('delete_certificate', fingerprint_id=cert.fingerprint_sha1) }} " method="post">
+                <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+        </li>
         {% endfor %}
     </ul>
 

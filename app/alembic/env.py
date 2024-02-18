@@ -37,7 +37,6 @@ def get_url():
     server = os.getenv("POSTGRES_SERVER", "db")
     db = os.getenv("POSTGRES_DB", "app")
     return f"postgresql+asyncpg://{user}:{password}@{server}/{db}"
-    #return "postgresql+asyncpg://postgres:changethis@localhost/app"
 
 
 def run_migrations_offline() -> None:
@@ -94,7 +93,12 @@ async def run_async_migrations() -> None:
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
 
-    asyncio.run(run_async_migrations())
+    connectable = config.attributes.get("connection", None)
+
+    if connectable is None:
+        asyncio.run(run_async_migrations())
+    else:
+        do_run_migrations(connectable)
 
 
 if context.is_offline_mode():
