@@ -59,6 +59,13 @@ generate_self_signed_cert(
 
 generate_self_signed_cert(
     not_valid_before=datetime.utcnow(),
+    not_valid_after=datetime.utcnow() + timedelta(days=20),
+    cert_filename="cert_expired_20days",
+    key_filename="key_expired_20days",
+)
+
+generate_self_signed_cert(
+    not_valid_before=datetime.utcnow(),
     not_valid_after=datetime.utcnow() + timedelta(days=120),
     cert_filename="cert_not_expired",
     key_filename="key_not_expired",

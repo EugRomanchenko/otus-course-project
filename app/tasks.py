@@ -17,7 +17,7 @@ async def print_expired_certificates():
         print("file successfully deleted")
     session = session_factory
     async with session() as db:
-        certificates = await find_expired_certificates(session=db, time_delta=timedelta(days=120))
+        certificates = await find_expired_certificates(session=db, time_delta=timedelta(days=40))
         print(certificates)
         for cert in certificates:
             cert_model = CertificateSchema.model_validate(cert)
@@ -39,4 +39,4 @@ async def print_expired_certificates():
 async def remove_expired_certificates():
     session = session_factory
     async with session() as db:
-        await delete_expired_certificates(session=db, time_delta=timedelta(days=120))
+        await delete_expired_certificates(session=db, time_delta=timedelta(days=40))
