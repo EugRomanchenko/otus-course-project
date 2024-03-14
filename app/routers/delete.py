@@ -11,7 +11,7 @@ router = APIRouter(prefix="/delete", tags=["delete"])
 templates = Jinja2Templates(directory="templates")
 
 
-@router.post("/{fingerprint_id}", status_code=200)
+@router.post("/{fingerprint_id}/", status_code=200)
 async def delete_certificate(
         fingerprint_id: str,
         async_session: AsyncSession = Depends(session_dependency),

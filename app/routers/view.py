@@ -4,7 +4,6 @@ from fastapi.templating import Jinja2Templates
 import logging
 
 from crud import find_certificate_by_fingerprint, find_all_certificates
-from schemas import certificate
 from db.engine import session_dependency
 
 
@@ -15,7 +14,7 @@ router = APIRouter(prefix="/view", tags=["view"])
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/all", response_model=certificate.Certificate)
+@router.get("/all/")
 async def get_all_certificates(
         request: Request,
         async_session: AsyncSession = Depends(session_dependency),
@@ -30,7 +29,7 @@ async def get_all_certificates(
     )
 
 
-@router.get("/{fingerprint_id}", response_model=certificate.Certificate)
+@router.get("/{fingerprint_id}/")
 async def get_certificate_by_fingerprint_id(
         request: Request,
         fingerprint_id: str,

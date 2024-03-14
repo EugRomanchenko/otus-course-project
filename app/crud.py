@@ -1,3 +1,4 @@
+import logging
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 from typing import Sequence
@@ -8,11 +9,21 @@ from models import Certificate
 from parser import parse_x509
 
 
+logger = logging.getLogger(__name__)
+
+
 async def save_certificate_info(
         session: AsyncSession,
         file: UploadFile
 ) -> Certificate:
-    context = parse_x509.parse_x509_der(await file.read())
+    try:
+        context = parse_x509.parse_x509_der(await file.read())
+    except Exception as e:
+        logger.info(f"Can't parse file: {e}")
+        raise HTTPException(
+            status_code=400,
+            detail="File content not valid. Check if file is valid DER-encoded certificate"
+        )
     certificate = Certificate(
         expired_at=context["expired_at"],
         created_at=context["created_at"],

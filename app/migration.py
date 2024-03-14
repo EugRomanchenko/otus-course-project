@@ -1,7 +1,10 @@
+import logging
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from alembic import command, config
 from config.settings import settings
+
+logger = logging.getLogger(__name__)
 
 
 def run_upgrade(connection, cfg):
